@@ -16,12 +16,12 @@ Website link: TBA
 -----
 
 ### TODO
-* track multiple bodies with aaccetable fps - ok
+* track multiple bodies with acceptable fps - ok
 * segment body parts in real time - ok
-* save body parts pictures into disk
-* reproduce body parts
-* add mapping software to output
-* add sound effects?
+* save body parts pictures into disk -
+* reproduce old body parts together with the ones tracked in real time -
+* add mapping software to output -
+* add sound effects -
 
 ### screenshots
 ![Screenshot](/image1.png?raw=true "screen shot 1")
