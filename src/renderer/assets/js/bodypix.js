@@ -199,7 +199,8 @@ const guiState = {
     segmentationThreshold: 0.5,
     opacity: 0.9,
     blurBodyPartAmount: 3,
-    bodyPartEdgeBlurAmount: 3
+    bodyPartEdgeBlurAmount: 3,
+    partToTrack: 1
   },
   showFps: !isMobile()
 }
@@ -366,8 +367,9 @@ function setupGui (cameras) {
   input.open()
 
   const estimateController =
-    gui.add(guiState, 'estimate', ['segmentation', 'partmap'])
-
+    //gui.add(guiState, 'estimate', ['segmentation', 'partmap'])
+    gui.add(guiState, 'estimate', ['partmap'])
+/*
   let segmentation = gui.addFolder('Segmentation')
   segmentation.add(guiState.segmentation, 'segmentationThreshold', 0.0, 1.0)
   const segmentationEffectController =
@@ -447,12 +449,14 @@ function setupGui (cameras) {
 
   // manually set the effect so that the options are shown.
   segmentationEffectController.setValue(guiState.segmentation.effect)
-
+  */
   let partMap = gui.addFolder('Part Map')
   partMap.add(guiState.partMap, 'segmentationThreshold', 0.0, 1.0)
   partMap.add(
-    guiState.partMap, 'effect', ['partMap', 'pixelation', 'blurBodyPart'])
-  partMap.add(guiState.partMap, 'opacity', 0.0, 1.0)
+    //guiState.partMap, 'effect', ['partMap', 'pixelation', 'blurBodyPart'])
+  guiState.partMap, 'effect', ['partMap'])
+  //partMap.add(guiState.partMap, 'opacity', 0.0, 1.0)
+  /*
   partMap.add(guiState.partMap, 'colorScale', Object.keys(partColorScales))
     .onChange(colorScale => {
       setShownPartColorScales(colorScale)
@@ -463,6 +467,10 @@ function setupGui (cameras) {
     .min(1)
     .max(20)
     .step(1)
+      */
+
+    const partToTrackController = partMap.add(guiState.partMap, 'partToTrack').min(0).max(26).step(1)
+
   partMap.open()
 
   estimateController.onChange(function (estimationType) {
@@ -475,6 +483,10 @@ function setupGui (cameras) {
       partMap.open()
       document.getElementById('colors').style.display = 'inline-block'
     }
+  })
+
+  partToTrackController.onChange(function (part) {
+
   })
 
   gui.add(guiState, 'showFps').onChange(showFps => {
@@ -659,9 +671,12 @@ function segmentBodyInRealTime () {
       case 'partmap':
         const ctx = canvas.getContext('2d')
         const multiPersonPartSegmentation = await estimatePartSegmentation()
-        const coloredPartImageData = bodyPix.toColoredPartMask(
-          multiPersonPartSegmentation,
-          partColorScales[guiState.partMap.colorScale])
+        const showColor = { r: 0, g: 0, b: 0, a: 0 }
+        const hideColor = { r: 0, g: 0, b: 0, a: 255 }
+
+        const coloredPartImageData = bodyPix.toMask(
+          multiPersonPartSegmentation, showColor, hideColor, true, [guiState.partMap.partToTrack]
+          )
 
         const maskBlurAmount = 0
         switch (guiState.partMap.effect) {
@@ -675,7 +690,7 @@ function segmentBodyInRealTime () {
             break
           case 'partMap':
             bodyPix.drawMask(
-              canvas, state.video, coloredPartImageData, guiState.opacity,
+              canvas, state.video, coloredPartImageData, 255,
               maskBlurAmount, flipHorizontally)
             break
           case 'blurBodyPart':
@@ -685,7 +700,7 @@ function segmentBodyInRealTime () {
               blurBodyPartIds, guiState.partMap.blurBodyPartAmount,
               guiState.partMap.edgeBlurAmount, flipHorizontally)
         }
-        drawPoses(multiPersonPartSegmentation, flipHorizontally, ctx)
+        // drawPoses(multiPersonPartSegmentation, flipHorizontally, ctx)
         break
       default:
         break
