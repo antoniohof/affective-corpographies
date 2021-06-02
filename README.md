@@ -1,17 +1,28 @@
-# affective-corpographies
+# affective corpographies
 
-> Affective Corpographies
+## site specific installation on vitrine381
 
-#### Build Setup
+* __todo__description__
 
-``` bash
-# install dependencies
-yarn
+(un)frame real people
+affective dissection of bodies as memory containing parts.
 
-# serve dev
-yarn dev
+when you cross this path, do you leave a part of yourself?
 
-# deploy
-yarn build
+-----
 
-```
+Website link: TBA
+
+-----
+
+### TODO
+* track multiple bodies with aaccetable fps - ok
+* segment body parts in real time - ok
+* save body parts pictures into disk
+* reproduce body parts
+* add mapping software to output
+* add sound effects?
+
+### screenshots
+![Screenshot](/image1.png?raw=true "screen shot 1")
+![Screenshot](/image2.png?raw=true "screen shot 2")
