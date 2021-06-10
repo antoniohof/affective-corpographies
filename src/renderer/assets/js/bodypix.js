@@ -339,12 +339,12 @@ function setupGui (cameras) {
       updateGuiInternalResolution(
         defaultMobileNetInternalResolution,
         ['low', 'medium', 'high', 'full'])
-      updateGuiOutputStride(defaultMobileNetStride, [8, 16])
+      updateGuiOutputStride(defaultMobileNetStride, [8, 16, 32, 64])
       updateGuiMultiplier(defaultMobileNetMultiplier, [0.50, 0.75, 1.0])
     } else { // guiState.input.architecture === "ResNet50"
       updateGuiInternalResolution(
         defaultResNetInternalResolution, ['low', 'medium', 'high', 'full'])
-      updateGuiOutputStride(defaultResNetStride, [32, 16])
+      updateGuiOutputStride(defaultResNetStride, [64,32, 16, 8])
       updateGuiMultiplier(defaultResNetMultiplier, [1.0])
     }
     updateGuiQuantBytes(defaultQuantBytes, [1, 2, 4])
@@ -671,8 +671,8 @@ function segmentBodyInRealTime () {
       case 'partmap':
         const ctx = canvas.getContext('2d')
         const multiPersonPartSegmentation = await estimatePartSegmentation()
-        const showColor = { r: 0, g: 0, b: 0, a: 0 }
-        const hideColor = { r: 0, g: 0, b: 0, a: 255 }
+        const showColor = { r: 0, g: 0, b: 0, a: 50 }
+        const hideColor = { r: 0, g: 0, b: 0, a: 150 }
 
         const coloredPartImageData = bodyPix.toMask(
           multiPersonPartSegmentation, showColor, hideColor, true, [guiState.partMap.partToTrack]
@@ -700,7 +700,7 @@ function segmentBodyInRealTime () {
               blurBodyPartIds, guiState.partMap.blurBodyPartAmount,
               guiState.partMap.edgeBlurAmount, flipHorizontally)
         }
-        // drawPoses(multiPersonPartSegmentation, flipHorizontally, ctx)
+        drawPoses(multiPersonPartSegmentation, flipHorizontally, ctx)
         break
       default:
         break
