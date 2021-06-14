@@ -696,9 +696,16 @@ function segmentBodyInRealTime () {
 
         const showColor = { r: 0, g: 0, b: 0, a: showColorOpacity }
         const hideColor = { r: 0, g: 0, b: 0, a: hideColorOpacity }
+        let partToTrack = [guiState.partMap.partToTrack]
+        if (guiState.partMap.partToTrack === 0 || guiState.partMap.partToTrack === 1) {
+          partToTrack = [0, 1]
+        }
 
+        if (guiState.partMap.partToTrack === 10 || guiState.partMap.partToTrack === 11) {
+          partToTrack = [10, 11]
+        }
         const coloredPartImageData = bodyPix.toMask(
-          multiPersonPartSegmentation, showColor, hideColor, false, [guiState.partMap.partToTrack]
+          multiPersonPartSegmentation, showColor, hideColor, false, partToTrack
           )
 
         const maskBlurAmount = 3
