@@ -154,10 +154,25 @@ async function loadVideo (cameraLabel) {
 
   state.video.play()
 }
+// GUI PART
+var gui;
+
+function updateDebugMode (isDebug) {
+  console.log("debug", isDebug)
+  if (isDebug == true) {
+    gui.open()
+    document.body.appendChild(stats.dom)
+    document.querySelector(".dg").setAttribute("style", "display:default")
+  } else {
+    gui.close()
+    document.body.removeChild(stats.dom)
+    document.querySelector(".dg").setAttribute("style", "display:none")
+  }
+}
 
 const defaultQuantBytes = 2
 
-const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75
+const defaultMobileNetMultiplier = 0.50
 const defaultMobileNetStride = 16
 const defaultMobileNetInternalResolution = 'medium'
 
@@ -165,13 +180,15 @@ const defaultResNetMultiplier = 1.0
 const defaultResNetStride = 16
 const defaultResNetInternalResolution = 'low'
 
+// INITIAL STATE
 const guiState = {
-  algorithm: 'multi-person-instance',
+  algorithm: 'person',
   estimate: 'partmap',
   camera: null,
   flipHorizontal: true,
+  IS_DEBUG: true,
   input: {
-    architecture: 'ResNet50',
+    architecture: 'MobileNetV1',
     outputStride: 16,
     internalResolution: 'low',
     multiplier: 1,
@@ -185,7 +202,7 @@ const guiState = {
     refineSteps: 10
   },
   segmentation: {
-    segmentationThreshold: 0.7,
+    segmentationThreshold: 0.05,
     effect: 'mask',
     maskBackground: true,
     opacity: 0.7,
@@ -196,7 +213,7 @@ const guiState = {
   partMap: {
     colorScale: 'rainbow',
     effect: 'partMap',
-    segmentationThreshold: 0.5,
+    segmentationThreshold: 0.05,
     opacity: 0.9,
     blurBodyPartAmount: 3,
     bodyPartEdgeBlurAmount: 3,
@@ -219,7 +236,7 @@ function toCameraOptions (cameras) {
  * Sets up dat.gui controller on the top-right of the window
  */
 function setupGui (cameras) {
-  const gui = new dat.GUI({ width: 300 })
+  gui = new dat.GUI({ width: 300 })
 
   let architectureController = null
   guiState[TRY_RESNET_BUTTON_NAME] = function () {
@@ -238,6 +255,7 @@ function setupGui (cameras) {
     })
 
   gui.add(guiState, 'flipHorizontal')
+  gui.add(guiState, 'IS_DEBUG')
 
   // There are two algorithms 'person' and 'multi-person-instance'.
   // The 'person' algorithm returns one single segmentation mask (or body
@@ -369,23 +387,24 @@ function setupGui (cameras) {
   const estimateController =
     //gui.add(guiState, 'estimate', ['segmentation', 'partmap'])
     gui.add(guiState, 'estimate', ['partmap'])
-/*
+    /*
   let segmentation = gui.addFolder('Segmentation')
   segmentation.add(guiState.segmentation, 'segmentationThreshold', 0.0, 1.0)
   const segmentationEffectController =
     segmentation.add(guiState.segmentation, 'effect', ['mask', 'bokeh'])
-
+*/
   let multiPersonDecoding = gui.addFolder('MultiPersonDecoding')
   multiPersonDecoding.add(
-    guiState.multiPersonDecoding, 'maxDetections', 0, 20, 1)
+    guiState.multiPersonDecoding, 'maxDetections', 1, 20, 1)
   multiPersonDecoding.add(
-    guiState.multiPersonDecoding, 'scoreThreshold', 0.0, 1.0)
-  multiPersonDecoding.add(guiState.multiPersonDecoding, 'nmsRadius', 0, 30, 1)
+    guiState.multiPersonDecoding, 'scoreThreshold', 0.1, 1.0)
+  multiPersonDecoding.add(guiState.multiPersonDecoding, 'nmsRadius', 1, 30, 1)
   multiPersonDecoding.add(
     guiState.multiPersonDecoding, 'numKeypointForMatching', 1, 17, 1)
   multiPersonDecoding.add(
     guiState.multiPersonDecoding, 'refineSteps', 1, 10, 1)
   multiPersonDecoding.open()
+/*
 
   algorithmController.onChange(function (value) {
     switch (guiState.algorithm) {
@@ -469,7 +488,7 @@ function setupGui (cameras) {
     .step(1)
       */
 
-    const partToTrackController = partMap.add(guiState.partMap, 'partToTrack').min(0).max(26).step(1)
+    const partToTrackController = partMap.add(guiState.partMap, 'partToTrack').min(0).max(23).step(1)
 
   partMap.open()
 
@@ -496,6 +515,7 @@ function setupGui (cameras) {
       document.body.removeChild(stats.dom)
     }
   })
+
 }
 
 function setShownPartColorScales (colorScale) {
@@ -671,14 +691,17 @@ function segmentBodyInRealTime () {
       case 'partmap':
         const ctx = canvas.getContext('2d')
         const multiPersonPartSegmentation = await estimatePartSegmentation()
-        const showColor = { r: 0, g: 0, b: 0, a: 50 }
-        const hideColor = { r: 0, g: 0, b: 0, a: 150 }
+        var showColorOpacity = guiState.IS_DEBUG ?  50 : 0
+        var hideColorOpacity = guiState.IS_DEBUG ?  150 : 255
+
+        const showColor = { r: 0, g: 0, b: 0, a: showColorOpacity }
+        const hideColor = { r: 0, g: 0, b: 0, a: hideColorOpacity }
 
         const coloredPartImageData = bodyPix.toMask(
-          multiPersonPartSegmentation, showColor, hideColor, true, [guiState.partMap.partToTrack]
+          multiPersonPartSegmentation, showColor, hideColor, false, [guiState.partMap.partToTrack]
           )
 
-        const maskBlurAmount = 0
+        const maskBlurAmount = 3
         switch (guiState.partMap.effect) {
           case 'pixelation':
             const pixelCellWidth = 10.0
@@ -700,7 +723,9 @@ function segmentBodyInRealTime () {
               blurBodyPartIds, guiState.partMap.blurBodyPartAmount,
               guiState.partMap.edgeBlurAmount, flipHorizontally)
         }
-        drawPoses(multiPersonPartSegmentation, flipHorizontally, ctx)
+        if (guiState.IS_DEBUG) {
+          drawPoses(multiPersonPartSegmentation, flipHorizontally, ctx)
+        }
         break
       default:
         break
@@ -732,6 +757,19 @@ export async function bindPage () {
   setupGui(cameras)
 
   segmentBodyInRealTime()
+
+  document.body.onkeyup = (e) => {
+    if (e.code === 'Space') {
+      console.log("clicked", guiState.IS_DEBUG)
+      if (guiState.IS_DEBUG === true) {
+        guiState.IS_DEBUG = false
+      } else {
+        guiState.IS_DEBUG = true
+      }
+      gui.updateDisplay()
+      updateDebugMode(guiState.IS_DEBUG)
+    }
+  }
 }
 
 navigator.getUserMedia = navigator.getUserMedia ||

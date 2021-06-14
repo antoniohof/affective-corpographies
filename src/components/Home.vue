@@ -6,7 +6,7 @@
   </div>
   <div id="loading" style='display:flex'>
     <div class="spinner-text">
-      Loading BodyPix model...
+      Loading
     </div>
     <div class="sk-spinner sk-spinner-pulse"></div>
   </div>
@@ -16,20 +16,6 @@
   </div>
   <ul id="colors" style="display: none"></ul>
   <div class="footer">
-    <div class="footer-text">
-      <p>
-        The BodyPix model can estimate which pixels in an image are part of a person, and which pixels
-        are part of each of 24 body parts. It works for <strong>multiple people</strong> in an input image or video.
-        <br>
-        <br> The <strong>internal resolution</strong>, <strong>output stride</strong> and <strong>model</strong> have
-        the
-        largest effects on accuracy/speed. A <i>higher</i> internal resolution results in higher accuracy but lower the
-        speed.
-        A <i>higher</i> output stride results in lower accuracy but higher speed. A <i>larger</i> model, indicated by
-        both
-        <i>architecture</i> and <i>multiplier</i> dropdown, results in higher accuracy but lower speed.
-      </p>
-    </div>
 
     <div class="footer-menu">
       <i class="material-icons switch-camera">switch_camera</i>
@@ -68,12 +54,6 @@ body {
       bottom: 0;
       width: 100%;
       color: black;
-    }
-
-    .footer-text {
-      max-width: 600px;
-      text-align: center;
-      margin: auto;
     }
 
     .footer-text,
