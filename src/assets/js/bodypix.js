@@ -171,10 +171,10 @@ const guiState = {
   camera: null,
   flipHorizontal: true,
   input: {
-    architecture: 'MobileNetV1',
+    architecture: 'ResNet50',
     outputStride: 16,
     internalResolution: 'low',
-    multiplier: 0.50,
+    multiplier: 1,
     quantBytes: 2
   },
   multiPersonDecoding: {
