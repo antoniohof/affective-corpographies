@@ -1,0 +1,2 @@
+D:\Projects\AffectiveCorpographies\unity\obj\Debug\UnityEditor.UI.csprojAssemblyReference.cache
+D:\Projects\AffectiveCorpographies\unity\obj\Debug\UnityEditor.UI.csproj.CoreCompileInputs.cache
