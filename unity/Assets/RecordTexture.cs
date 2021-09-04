@@ -7,7 +7,7 @@ using NatSuite.Recorders.Clocks;
 
 public class RecordTexture : MonoBehaviour
 {   
-    public GenerateOutput inputTex;
+    public RenderTexture inputRenderTexToRecord;
     private IClock clock;
 
     MP4Recorder recorder;
@@ -25,7 +25,7 @@ public class RecordTexture : MonoBehaviour
             yield return new WaitForSeconds(1);
             yield return new WaitForEndOfFrame();
 
-            AsyncGPUReadback.Request(inputTex.outputTex, 0, TextureFormat.ARGB32, OnCompleteReadback);
+            AsyncGPUReadback.Request(inputRenderTexToRecord, 0, TextureFormat.ARGB32, OnCompleteReadback);
             counter++;
             Debug.Log(counter);
             if (counter > 20)

@@ -15,7 +15,7 @@ sealed class Visualizer : MonoBehaviour
 
     BodyPixRuntime _bodypix;
     Material _material;
-    RenderTexture _mask;
+    public RenderTexture _mask;
 
     void Start()
     {
