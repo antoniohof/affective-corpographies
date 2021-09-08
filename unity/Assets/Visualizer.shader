@@ -41,19 +41,27 @@ Shader "Hidden/BodyPix/Visualizer"
     {
         BodyPix_Mask mask =
           BodyPix_SampleMask(texCoord, _MainTex, _MainTex_TexelSize.zw);
+        
+        float3 acc = 1;
 
-        float3 acc = 0;
+        // mask get pixels of each body part
+        /*
         for (uint part = 0; part < BODYPIX_PART_COUNT; part++)
         {
-			if (part == 0 || part == 1) {
+			if (part == 0) {
 				float score = BodyPix_EvalPart(mask, part);
-				acc += 10 * score;
+				//acc += 10 * score;
+                acc = float3(score,score,score);
 			}
 			
         }
+        */
+        
 
+
+        // mask blur
         float alpha = BodyPix_EvalSegmentation(mask);
-        alpha = smoothstep(0.47, 0.57, alpha);
+        alpha = smoothstep(0.47, 0.87, alpha);
 
         return float4(acc, alpha);
     }

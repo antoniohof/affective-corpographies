@@ -8,8 +8,8 @@ sealed class Visualizer : MonoBehaviour
     [SerializeField] ImageSource _source = null;
     [SerializeField] ResourceSet _resources = null;
     [SerializeField] Vector2Int _resolution = new Vector2Int(512, 384);
-    [SerializeField] RawImage _previewUI = null;
-    [SerializeField] RawImage _maskUI = null;
+    [SerializeField] RawImage backgroundRenderImage = null;
+    [SerializeField] RawImage maskRenderImage = null;
     [SerializeField] bool _drawSkeleton = false;
     [SerializeField] Shader _shader = null;
 
@@ -25,7 +25,7 @@ sealed class Visualizer : MonoBehaviour
 
         var reso = _source.OutputResolution;
         _mask = new RenderTexture(reso.x, reso.y, 0);
-        _maskUI.texture = _mask;
+        maskRenderImage.texture = _mask;
     }
 
     void OnDestroy()
@@ -38,9 +38,16 @@ sealed class Visualizer : MonoBehaviour
     void LateUpdate()
     {
         _bodypix.ProcessImage(_source.Texture);
-        _previewUI.texture = _source.Texture;
+        backgroundRenderImage.texture = _source.Texture;
 
         Graphics.Blit(_bodypix.Mask, _mask, _material, 0);
+
+        if (Time.frameCount % 30 == 0)
+        {
+            // Debug.Log("collect");
+            System.GC.Collect();
+        // Application.GarbageCollectUnusedAssets();
+        }
     }
 
     void OnRenderObject()
