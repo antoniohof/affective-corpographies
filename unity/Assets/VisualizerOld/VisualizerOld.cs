@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Klak.TestTools;
 using BodyPix;
+using UI = UnityEngine.UI;
+using Klak.TestTools;
+using System.Linq;
 
-sealed class Visualizer : MonoBehaviour
+public class VisualizerOld : MonoBehaviour
 {
     [SerializeField] ImageSource _source = null;
     [SerializeField] ResourceSet _resources = null;
@@ -12,6 +14,12 @@ sealed class Visualizer : MonoBehaviour
     [SerializeField] RawImage maskRenderImage = null;
     [SerializeField] bool _drawSkeleton = false;
     [SerializeField] Shader _shader = null;
+    [SerializeField] RectTransform _markerPrefab = null;
+    const float ScoreThreshold = 0.3f;
+
+
+    (RectTransform xform, UI.Text label) []
+      _markers = new (RectTransform, UI.Text) [Body.KeypointCount];
 
     BodyPixRuntime _bodypix;
     Material _material;
@@ -26,6 +34,17 @@ sealed class Visualizer : MonoBehaviour
         var reso = _source.OutputResolution;
         _mask = new RenderTexture(reso.x, reso.y, 0);
         maskRenderImage.texture = _mask;
+
+
+         // BodyPix detector initialization
+        //_detector = new BodyDetector(_resources, _resolution.x, _resolution.y);
+
+        // Marker population
+        for (var i = 0; i < Body.KeypointCount; i++)
+        {
+            var xform = Instantiate(_markerPrefab, backgroundRenderImage.transform);
+            _markers[i] = (xform, xform.GetComponentInChildren<UI.Text>());
+        }
     }
 
     void OnDestroy()
@@ -42,18 +61,38 @@ sealed class Visualizer : MonoBehaviour
 
         Graphics.Blit(_bodypix.Mask, _mask, _material, 0);
 
+        // Marker update
+        /*
+        var rectSize = backgroundRenderImage.rectTransform.rect.size;
+        for (var i = 0; i < Body.KeypointCount; i++)
+        {
+            var key = _bodypix.Keypoints.ElementAt(i);
+            var (xform, label) = _markers[i];
+
+            // Visibility
+            var visible = key.Score > ScoreThreshold;
+            xform.gameObject.SetActive(visible);
+            if (!visible) continue;
+
+            // Position and label
+            xform.anchoredPosition = key.Position * rectSize;
+            label.text = $"{(Body.KeypointID)i}\n{key.Score:0.00}";
+        }
+        */
+
         if (Time.frameCount % 30 == 0)
         {
             // Debug.Log("collect");
             System.GC.Collect();
         // Application.GarbageCollectUnusedAssets();
         }
+        
     }
 
     void OnRenderObject()
     {
         if (!_drawSkeleton) return;
-
+        
         _material.SetBuffer("_Keypoints", _bodypix.Keypoints);
         _material.SetFloat("_Aspect", (float)_resolution.x / _resolution.y);
 

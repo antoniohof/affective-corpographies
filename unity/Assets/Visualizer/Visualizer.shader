@@ -41,27 +41,17 @@ Shader "Hidden/BodyPix/Visualizer"
     {
         BodyPix_Mask mask =
           BodyPix_SampleMask(texCoord, _MainTex, _MainTex_TexelSize.zw);
-        
-        float3 acc = 1;
 
-        // mask get pixels of each body part
-        /*
+        float3 acc = 0;
         for (uint part = 0; part < BODYPIX_PART_COUNT; part++)
         {
-			if (part == 0) {
-				float score = BodyPix_EvalPart(mask, part);
-				//acc += 10 * score;
-                acc = float3(score,score,score);
-			}
-			
+            float score = BodyPix_EvalPart(mask, part);
+            score = smoothstep(0.47, 0.57, score);
+            acc += HueToRGB((float)part / BODYPIX_PART_COUNT) * score;
         }
-        */
-        
 
-
-        // mask blur
         float alpha = BodyPix_EvalSegmentation(mask);
-        alpha = smoothstep(0.47, 0.87, alpha);
+        alpha = smoothstep(0.47, 0.57, alpha);
 
         return float4(acc, alpha);
     }
@@ -134,7 +124,7 @@ Shader "Hidden/BodyPix/Visualizer"
         float x = lerp(-0.5, 0.5, key.x) * _Aspect;
         float y = lerp(-0.5, 0.5, key.y);
 
-        const float threshold = 0.5;
+        const float threshold = 0.3;
         bool mask = key.z > threshold;
 
         position = UnityObjectToClipPos(float4(x, y, 1, 1));

@@ -18,7 +18,7 @@ namespace NatSuite.Examples {
         private IClock clock;
         private bool recording;
         private Color32[] pixelBuffer;
-        public RawImage previewImage;
+        //public RawImage previewImage;
 
 
         public Camera cam;
@@ -26,11 +26,10 @@ namespace NatSuite.Examples {
         private Texture2D readbackTexture;
         #region --Recording State--
 
-        public int width = 1440;
+        public int width = 1920;
         public int height = 1080;
 
         void Start () {
-            //previewImage.texture = inputTexture;
         readbackTexture = new Texture2D(width, height);
 
         }
@@ -80,7 +79,7 @@ namespace NatSuite.Examples {
 
             RenderTexture.active = tempRT;
             readbackTexture.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-            previewImage.texture = tempRT;
+            // previewImage.texture = tempRT;
 
             //Release temporary RenderTexture
             RenderTexture.ReleaseTemporary(tempRT);
