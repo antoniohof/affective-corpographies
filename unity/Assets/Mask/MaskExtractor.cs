@@ -46,7 +46,7 @@ public class MaskExtractor : MonoBehaviour
         Graphics.Blit(_bodypix.Mask, _mask, _material, 0);
 
 
-        if (Time.frameCount % 30 == 0)
+        if (Time.frameCount % 5000 == 0)
         {
             // Debug.Log("collect");
             System.GC.Collect();

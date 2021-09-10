@@ -42,7 +42,7 @@ Shader "Hidden/BodyPix/VisualizerOld"
         BodyPix_Mask mask =
           BodyPix_SampleMask(texCoord, _MainTex, _MainTex_TexelSize.zw);
         
-        float3 acc = 1;
+        float3 acc = 1; // 1 shows body, 0 is dark
 
         // mask get pixels of each body part
         /*
@@ -61,7 +61,7 @@ Shader "Hidden/BodyPix/VisualizerOld"
 
         // mask blur
         float alpha = BodyPix_EvalSegmentation(mask);
-        alpha = smoothstep(0.27, 0.77, alpha);
+        alpha = smoothstep(0.27, 0.28, alpha);
 
         return float4(acc, alpha);
     }
