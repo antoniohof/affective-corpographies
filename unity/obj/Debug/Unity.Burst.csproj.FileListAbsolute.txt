@@ -280,3 +280,4 @@ D:\Projects\AffectiveCorpographies\unity\obj\Debug\Unity.Burst.csproj.CoreCompil
 D:\Projects\AffectiveCorpographies\unity\obj\Debug\Unity.Burst.csproj.CopyComplete
 D:\Projects\AffectiveCorpographies\unity\obj\Debug\Unity.Burst.dll
 D:\Projects\AffectiveCorpographies\unity\obj\Debug\Unity.Burst.pdb
+D:\Projects\AffectiveCorpographies\unity\Temp\Bin\Debug\ICSharpCode.NRefactory.dll

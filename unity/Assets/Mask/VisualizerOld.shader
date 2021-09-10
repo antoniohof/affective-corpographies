@@ -61,7 +61,7 @@ Shader "Hidden/BodyPix/VisualizerOld"
 
         // mask blur
         float alpha = BodyPix_EvalSegmentation(mask);
-        alpha = smoothstep(0.47, 0.87, alpha);
+        alpha = smoothstep(0.27, 0.77, alpha);
 
         return float4(acc, alpha);
     }

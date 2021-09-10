@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BodyPix {
 
-public sealed class BodyDetector : System.IDisposable
+public class BodyDetector : System.IDisposable
 {
     #region Public methods/properties
 

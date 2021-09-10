@@ -280,3 +280,4 @@ D:\Projects\AffectiveCorpographies\unity\obj\Debug\UnityEngine.UI.csproj.CoreCom
 D:\Projects\AffectiveCorpographies\unity\obj\Debug\UnityEngine.UI.csproj.CopyComplete
 D:\Projects\AffectiveCorpographies\unity\obj\Debug\UnityEngine.UI.dll
 D:\Projects\AffectiveCorpographies\unity\obj\Debug\UnityEngine.UI.pdb
+D:\Projects\AffectiveCorpographies\unity\Temp\Bin\Debug\ICSharpCode.NRefactory.dll

@@ -4,7 +4,7 @@ using Klak.TestTools;
 using BodyPix;
 using System.Linq;
 
-public sealed class KeypointViewer : MonoBehaviour
+public sealed class KeypointsExtractor : MonoBehaviour
 {
     [SerializeField] ImageSource _source = null;
     [SerializeField] ResourceSet _resources = null;
@@ -14,10 +14,9 @@ public sealed class KeypointViewer : MonoBehaviour
 
     const float ScoreThreshold = 0.3f;
 
-    BodyDetector _detector;
+    public BodyDetector _detector;
 
-    (RectTransform xform, UI.Text label) []
-      _markers = new (RectTransform, UI.Text) [Body.KeypointCount];
+    public (RectTransform xform, UI.Text label) [] _markers = new (RectTransform, UI.Text) [Body.KeypointCount];
 
     void Start()
     {
@@ -39,7 +38,7 @@ public sealed class KeypointViewer : MonoBehaviour
     {
         // BodyPix detector update
         _detector.ProcessImage(_source.Texture);
-        _previewUI.texture = _source.Texture;
+        //_previewUI.texture = _source.Texture;
 
         // Marker update
         var rectSize = _previewUI.rectTransform.rect.size;
@@ -55,7 +54,7 @@ public sealed class KeypointViewer : MonoBehaviour
 
             // Position and label
             xform.anchoredPosition = key.Position * rectSize;
-            label.text = $"{(Body.KeypointID)i}\n{key.Score:0.00}";
+            label.text = $"{(Body.KeypointID)i}";
         }
     }
 }

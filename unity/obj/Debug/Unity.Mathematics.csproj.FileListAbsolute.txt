@@ -280,3 +280,4 @@ D:\Projects\AffectiveCorpographies\unity\obj\Debug\Unity.Mathematics.csproj.Core
 D:\Projects\AffectiveCorpographies\unity\obj\Debug\Unity.Mathematics.csproj.CopyComplete
 D:\Projects\AffectiveCorpographies\unity\obj\Debug\Unity.Mathematics.dll
 D:\Projects\AffectiveCorpographies\unity\obj\Debug\Unity.Mathematics.pdb
+D:\Projects\AffectiveCorpographies\unity\Temp\Bin\Debug\ICSharpCode.NRefactory.dll

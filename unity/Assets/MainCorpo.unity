@@ -207,8 +207,9 @@ GameObject:
   - component: {fileID: 251461801}
   - component: {fileID: 251461800}
   - component: {fileID: 251461803}
+  - component: {fileID: 251461804}
   m_Layer: 0
-  m_Name: Visualizer
+  m_Name: Processor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,7 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _source: {fileID: 251461801}
   _resources: {fileID: 11400000, guid: c0532b829d2dd49d99fa8e8df757816e, type: 2}
-  _resolution: {x: 640, y: 360}
+  _resolution: {x: 512, y: 288}
   backgroundRenderImage: {fileID: 1869171756}
   maskRenderImage: {fileID: 55666815}
   _drawSkeleton: 0
@@ -278,16 +279,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 251461799}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb59fc5f660284b628181a2481152058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _source: {fileID: 251461801}
   _resources: {fileID: 11400000, guid: c0532b829d2dd49d99fa8e8df757816e, type: 2}
-  _resolution: {x: 640, y: 360}
+  _resolution: {x: 512, y: 288}
   _previewUI: {fileID: 384286161}
   _markerPrefab: {fileID: 4461991498135571732, guid: eee3f1712c0734bd3be7bea414530f1b, type: 3}
+--- !u!114 &251461804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251461799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb5e653082f841949b7a653a9893b378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  extractor: {fileID: 251461803}
+  cameraToAdjust: {fileID: 274663182}
+  BodypartToFocus: Nose
 --- !u!1 &274663181
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +403,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 384286160}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
@@ -997,7 +1013,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1440, y: 1080}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
