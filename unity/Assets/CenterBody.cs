@@ -12,8 +12,9 @@ public class CenterBody : MonoBehaviour
     public KeypointsExtractor extractor;
     public Camera cameraToAdjust;
 
-    public string BodypartToFocus = "RightElbow";
-
+    public string BodypartToFocus = "Nose";
+    public float smoothTime = 0.1F;
+    private Vector3 velocity = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +33,14 @@ public class CenterBody : MonoBehaviour
             {
                 float x = (xform.anchoredPosition.x / 1920f) * 2.0f;
                 float y = (xform.anchoredPosition.y / 1920f) * 2.0f;
-                cameraToAdjust.transform.position = new Vector3(x - 1.0f, y - 0.57f, cameraToAdjust.transform.position.z);
+                // -0.8 centralized o body when using Nose
+                // -0.57 centralize on body part
+
+                // Define a target position above and behind the target transform
+                Vector3 targetPosition = new Vector3(x - 1.0f, y - 0.57f, cameraToAdjust.transform.position.z);
+
+
+                cameraToAdjust.transform.position = Vector3.SmoothDamp(cameraToAdjust.transform.position, targetPosition, ref velocity, smoothTime);
             }
         }
     }

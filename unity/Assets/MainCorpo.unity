@@ -289,6 +289,8 @@ MonoBehaviour:
   _resolution: {x: 512, y: 288}
   _previewUI: {fileID: 384286161}
   _markerPrefab: {fileID: 4461991498135571732, guid: eee3f1712c0734bd3be7bea414530f1b, type: 3}
+  minScoreToDetect: 0.3
+  detectingBody: 0
 --- !u!114 &251461804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +305,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   extractor: {fileID: 251461803}
   cameraToAdjust: {fileID: 274663182}
-  BodypartToFocus: Nose
+  BodypartToFocus: RightEye
+  smoothTime: 0.1
 --- !u!1 &274663181
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +335,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -349,7 +352,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 0.5
+  orthographic size: 0.03
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -730,7 +733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spoutName: Spout Sender
-  _keepAlpha: 1
+  _keepAlpha: 0
   _captureMethod: 1
   _sourceCamera: {fileID: 274663182}
   _sourceTexture: {fileID: 0}
@@ -756,6 +759,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2066344106}
     m_Modifications:
+    - target: {fileID: 1961369732989660, guid: d88712a49642b4b49b8322acc70b918b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114316963683169970, guid: d88712a49642b4b49b8322acc70b918b, type: 3}
       propertyPath: onTouchUp.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -936,6 +943,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1834559470}
   - component: {fileID: 1834559469}
+  - component: {fileID: 1834559471}
   m_Layer: 0
   m_Name: Recorder
   m_TagString: Untagged
@@ -955,6 +963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e883c5cbec336a641ae1e55766cfc0b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recording: 0
   cam: {fileID: 274663182}
   width: 1920
   height: 1080
@@ -972,6 +981,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1834559471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834559468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e6ec7534e8e124c8c014433e524331, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keypointExtract: {fileID: 251461803}
+  recorder: {fileID: 1834559469}
+  recordingBody: 0
+  forceNoRecording: 1
 --- !u!1 &1869171753
 GameObject:
   m_ObjectHideFlags: 0

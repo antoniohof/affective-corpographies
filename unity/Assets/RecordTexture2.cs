@@ -16,7 +16,7 @@ namespace NatSuite.Examples {
        //  public RenderTexture inputTexture;
         private MP4Recorder recorder;
         private IClock clock;
-        private bool recording;
+        public bool recording;
         private Color32[] pixelBuffer;
         //public RawImage previewImage;
 
@@ -30,7 +30,7 @@ namespace NatSuite.Examples {
         public int height = 1080;
 
         void Start () {
-        readbackTexture = new Texture2D(width, height);
+            readbackTexture = new Texture2D(width, height);
 
         }
 
@@ -38,7 +38,17 @@ namespace NatSuite.Examples {
             // Start recording
             clock = new RealtimeClock();
             recorder = new MP4Recorder(width, height, 30);
+
             recording = true;
+        }
+
+        void OnApplicationQuit()
+        {
+            Debug.Log("App ended");
+            if (recording)
+            {
+                StopRecording();
+            }
         }
 
         public async void StopRecording () {
@@ -47,7 +57,7 @@ namespace NatSuite.Examples {
             var path = await recorder.FinishWriting();
             // Playback recording
             Debug.Log($"Saved recording to: {path}");
-            Handheld.PlayFullScreenMovie($"file://{path}");
+            // Handheld.PlayFullScreenMovie($"file://{path}");
         }
         #endregion
 
