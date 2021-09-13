@@ -11,6 +11,8 @@ public class DetectPersonAndRecord : MonoBehaviour
 
     public bool forceNoRecording = false;
 
+    public CenterBody centerBody;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,18 @@ public class DetectPersonAndRecord : MonoBehaviour
         }
         if (keypointExtract.detectingBody && !recorder.recording)
         {
+            // TODO choose randomly body part 
+            // centerBody.BodypartToFocus = 
+
+            List<string> parts = new List<string>();
+            parts.Add("Nose");
+            parts.Add("LeftEye");
+            parts.Add("RightEye");
+            int randomInt = Random.Range(0, 3);
+            Debug.Log(randomInt);
+            centerBody.BodypartToFocus = parts[randomInt];
+
+
             recorder.StartRecording();
             recordingBody = true;
         }

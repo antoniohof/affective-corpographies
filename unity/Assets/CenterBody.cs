@@ -15,29 +15,44 @@ public class CenterBody : MonoBehaviour
     public string BodypartToFocus = "Nose";
     public float smoothTime = 0.1F;
     private Vector3 velocity = Vector3.zero;
+
+    private string currentLabelToFind = "";
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentLabelToFind = BodypartToFocus;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        currentLabelToFind = BodypartToFocus;
+
         // Marker update
         for (var i = 0; i < extractor._markers.Length; i++)
         {
             var (xform, label) = extractor._markers[i];
 
-            if (label.text == BodypartToFocus)
+            if (label.text == currentLabelToFind)
             {
                 float x = (xform.anchoredPosition.x / 1920f) * 2.0f;
                 float y = (xform.anchoredPosition.y / 1920f) * 2.0f;
                 // -0.8 centralized o body when using Nose
                 // -0.57 centralize on body part
 
+                float yAdjuster = 0.57f;
+
+                if (currentLabelToFind == "Nose")
+                {
+                    // actually focus on mouth
+                    yAdjuster = 0.61f;
+                }
+
+                float xAdjuster = 1.0f;
                 // Define a target position above and behind the target transform
-                Vector3 targetPosition = new Vector3(x - 1.0f, y - 0.57f, cameraToAdjust.transform.position.z);
+                Vector3 targetPosition = new Vector3(x - xAdjuster, y - yAdjuster, cameraToAdjust.transform.position.z);
 
 
                 cameraToAdjust.transform.position = Vector3.SmoothDamp(cameraToAdjust.transform.position, targetPosition, ref velocity, smoothTime);

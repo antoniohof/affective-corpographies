@@ -205,7 +205,6 @@ GameObject:
   m_Component:
   - component: {fileID: 251461802}
   - component: {fileID: 251461801}
-  - component: {fileID: 251461800}
   - component: {fileID: 251461803}
   - component: {fileID: 251461804}
   m_Layer: 0
@@ -215,26 +214,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &251461800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 251461799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c0bbc86f6a7e4823b75052870c81cea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _source: {fileID: 251461801}
-  _resources: {fileID: 11400000, guid: c0532b829d2dd49d99fa8e8df757816e, type: 2}
-  _resolution: {x: 512, y: 288}
-  backgroundRenderImage: {fileID: 1869171756}
-  maskRenderImage: {fileID: 55666815}
-  _drawSkeleton: 0
-  _shader: {fileID: 4800000, guid: 5dd7f5d1206004095a1ccf893c31eac8, type: 3}
-  _mask: {fileID: 0}
 --- !u!114 &251461801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +270,11 @@ MonoBehaviour:
   _markerPrefab: {fileID: 4461991498135571732, guid: eee3f1712c0734bd3be7bea414530f1b, type: 3}
   minScoreToDetect: 0.3
   detectingBody: 0
+  backgroundRenderImage: {fileID: 1869171756}
+  maskRenderImage: {fileID: 55666815}
+  _drawSkeleton: 0
+  _shader: {fileID: 4800000, guid: 5dd7f5d1206004095a1ccf893c31eac8, type: 3}
+  _mask: {fileID: 0}
 --- !u!114 &251461804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,7 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   extractor: {fileID: 251461803}
   cameraToAdjust: {fileID: 274663182}
-  BodypartToFocus: RightEye
+  BodypartToFocus: Nose
   smoothTime: 0.1
 --- !u!1 &274663181
 GameObject:
@@ -352,7 +336,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 0.03
+  orthographic size: 0.04
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -942,8 +926,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1834559470}
-  - component: {fileID: 1834559469}
   - component: {fileID: 1834559471}
+  - component: {fileID: 1834559469}
   m_Layer: 0
   m_Name: Recorder
   m_TagString: Untagged
@@ -964,6 +948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recording: 0
+  centerBody: {fileID: 251461804}
   cam: {fileID: 274663182}
   width: 1920
   height: 1080
@@ -997,6 +982,7 @@ MonoBehaviour:
   recorder: {fileID: 1834559469}
   recordingBody: 0
   forceNoRecording: 1
+  centerBody: {fileID: 251461804}
 --- !u!1 &1869171753
 GameObject:
   m_ObjectHideFlags: 0

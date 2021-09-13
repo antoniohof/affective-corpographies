@@ -10,6 +10,8 @@ namespace NatSuite.Examples {
     using System.Collections;
     using Recorders;
     using Recorders.Clocks;
+    using UnityEditor;
+    using System.IO;
 
     public class RecordTexture2 : MonoBehaviour {
 
@@ -18,6 +20,7 @@ namespace NatSuite.Examples {
         private IClock clock;
         public bool recording;
         private Color32[] pixelBuffer;
+        public CenterBody centerBody;
         //public RawImage previewImage;
 
 
@@ -54,9 +57,23 @@ namespace NatSuite.Examples {
         public async void StopRecording () {
             // Stop recording
             recording = false;
-            var path = await recorder.FinishWriting();
+            string path = await recorder.FinishWriting();
             // Playback recording
-            Debug.Log($"Saved recording to: {path}");
+            char c = '\\';
+            string fileName = path.Split(c)[4];
+            string folderPartName = centerBody.BodypartToFocus;
+
+            // exception
+            if (folderPartName == "Nose")
+            {
+                folderPartName = "Mouth";
+            }
+
+            string destPath = "D:/Projects/AffectiveCorpographies/TD/videos/" + folderPartName  + "//" + fileName;
+
+            File.Move(path, destPath);
+            Debug.Log($"Saved recording to: {destPath}");
+
             // Handheld.PlayFullScreenMovie($"file://{path}");
         }
         #endregion
