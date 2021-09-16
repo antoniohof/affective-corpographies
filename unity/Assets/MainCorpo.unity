@@ -270,6 +270,9 @@ MonoBehaviour:
   _markerPrefab: {fileID: 4461991498135571732, guid: eee3f1712c0734bd3be7bea414530f1b, type: 3}
   minScoreToDetect: 0.3
   detectingBody: 0
+  detectingBodyCounter: 0
+  minCountToRecord: 50
+  minNearToRecord: 0.1
   backgroundRenderImage: {fileID: 1869171756}
   maskRenderImage: {fileID: 55666815}
   _drawSkeleton: 0

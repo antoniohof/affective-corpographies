@@ -1,3 +1,4 @@
+using OscJack;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class DetectPersonAndRecord : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -33,18 +34,27 @@ public class DetectPersonAndRecord : MonoBehaviour
         }
         if (keypointExtract.detectingBody && !recorder.recording)
         {
-            // TODO choose randomly body part 
-            // centerBody.BodypartToFocus = 
+
 
             List<string> parts = new List<string>();
             parts.Add("Nose");
             parts.Add("LeftEye");
             parts.Add("RightEye");
-            int randomInt = Random.Range(0, 3);
+            parts.Add("LeftAnkle");
+            parts.Add("RightShoulder");
+            parts.Add("LeftKnee");
+            int randomInt = Random.Range(0, parts.Count);
             Debug.Log(randomInt);
             centerBody.BodypartToFocus = parts[randomInt];
 
+            // IP address, port number
+            var client = new OscClient("127.0.0.1", 9000);
 
+            client.Send("/td", centerBody.BodypartToFocus);
+            Debug.Log("send start");
+
+            // Terminate the client.
+            client.Dispose();
             recorder.StartRecording();
             recordingBody = true;
         }

@@ -18,6 +18,12 @@ public sealed class KeypointsExtractor : MonoBehaviour
 
     public bool detectingBody = false;
 
+    public int detectingBodyCounter = 0;
+
+    public int minCountToRecord = 50;
+
+    public float minNearToRecord = 0.1f;
+
     // MASK
     [SerializeField] UI.RawImage backgroundRenderImage = null;
     [SerializeField] UI.RawImage maskRenderImage = null;
@@ -68,6 +74,8 @@ public sealed class KeypointsExtractor : MonoBehaviour
 
         //_previewUI.texture = _source.Texture;
         bool hasKeypoints = false;
+
+
         // Marker update
         var rectSize = _previewUI.rectTransform.rect.size;
         for (var i = 0; i < Body.KeypointCount; i++)
@@ -85,7 +93,39 @@ public sealed class KeypointsExtractor : MonoBehaviour
             label.text = $"{(Body.KeypointID)i}";
         }
 
-        detectingBody = hasKeypoints;
+        var c = Camera.main;
+
+        if (hasKeypoints)
+        {
+            Vector3 shouldLeft = _detector.Keypoints.ElementAt(5).Position;
+            Vector3 shouldRight = _detector.Keypoints.ElementAt(6).Position;
+
+            var d = calculateDistance(shouldLeft, shouldRight);
+            // person is near!
+            if (d > minNearToRecord) // distance 
+            {
+                detectingBodyCounter++;
+                if (detectingBodyCounter > minCountToRecord) {
+                    c.orthographicSize = 0.04f;
+                    detectingBody = true;
+                    detectingBodyCounter = 0;
+                }
+
+            } else
+            {
+                detectingBody = false;
+                detectingBodyCounter = 0;
+
+            }
+        } else
+        {
+            detectingBody = false;
+        }
+
+        if (!detectingBody)
+        {
+            c.orthographicSize = 0.5f;
+        }
 
 
 
@@ -96,6 +136,11 @@ public sealed class KeypointsExtractor : MonoBehaviour
             // Application.GarbageCollectUnusedAssets();
         }
 
+    }
+
+    float calculateDistance (Vector3 left, Vector3 right)
+    {
+        return Vector3.Distance(right, left);
     }
 
     void OnRenderObject()

@@ -12,6 +12,7 @@ namespace NatSuite.Examples {
     using Recorders.Clocks;
     using UnityEditor;
     using System.IO;
+    using OscJack;
 
     public class RecordTexture2 : MonoBehaviour {
 
@@ -55,6 +56,15 @@ namespace NatSuite.Examples {
         }
 
         public async void StopRecording () {
+
+            // IP address, port number
+            var client = new OscClient("127.0.0.1", 9000);
+
+            client.Send("/td", "stop");
+            Debug.Log("send stop");
+            // Terminate the client.
+            client.Dispose();
+
             // Stop recording
             recording = false;
             string path = await recorder.FinishWriting();
