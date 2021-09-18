@@ -20,6 +20,20 @@ public class DetectPersonAndRecord : MonoBehaviour
 
     }
 
+    public void chooseRandomPart()
+    {
+        List<string> parts = new List<string>();
+        parts.Add("Nose");
+        parts.Add("LeftEye");
+        parts.Add("RightEye");
+        parts.Add("LeftAnkle");
+        parts.Add("RightShoulder");
+        parts.Add("LeftKnee");
+        int randomInt = Random.Range(0, parts.Count);
+        Debug.Log(randomInt);
+        centerBody.BodypartToFocus = parts[randomInt];
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -36,16 +50,7 @@ public class DetectPersonAndRecord : MonoBehaviour
         {
 
 
-            List<string> parts = new List<string>();
-            parts.Add("Nose");
-            parts.Add("LeftEye");
-            parts.Add("RightEye");
-            parts.Add("LeftAnkle");
-            parts.Add("RightShoulder");
-            parts.Add("LeftKnee");
-            int randomInt = Random.Range(0, parts.Count);
-            Debug.Log(randomInt);
-            centerBody.BodypartToFocus = parts[randomInt];
+            chooseRandomPart();
 
             // IP address, port number
             var client = new OscClient("127.0.0.1", 9000);

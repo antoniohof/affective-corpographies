@@ -41,6 +41,7 @@ public class CenterBody : MonoBehaviour
                 float y = (xform.anchoredPosition.y / 1920f) * 2.0f;
                 // -0.8 centralized o body when using Nose
                 // -0.57 centralize on body part
+                float xAdjuster = 1.0f;
 
                 float yAdjuster = 0.57f;
 
@@ -48,9 +49,28 @@ public class CenterBody : MonoBehaviour
                 {
                     // actually focus on mouth
                     yAdjuster = 0.61f;
-                }
+                    cameraToAdjust.orthographicSize = 0.04f;
 
-                float xAdjuster = 1.0f;
+                }
+                if (currentLabelToFind == "LeftEye" || currentLabelToFind == "RightEye")
+                {
+                    cameraToAdjust.orthographicSize = 0.02f;
+                }
+                if (currentLabelToFind == "LeftAnkle") {
+                    cameraToAdjust.orthographicSize = 0.06f;
+
+                }
+                if (currentLabelToFind == "RightShoulder")
+                {
+                    cameraToAdjust.orthographicSize = 0.2f;
+                    yAdjuster = 0.75f;
+                    xAdjuster = 0.95f;
+
+                }
+                if (currentLabelToFind == "LeftKnee")
+                {
+                    cameraToAdjust.orthographicSize = 0.06f;
+                }
                 // Define a target position above and behind the target transform
                 Vector3 targetPosition = new Vector3(x - xAdjuster, y - yAdjuster, cameraToAdjust.transform.position.z);
 

@@ -292,7 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   extractor: {fileID: 251461803}
   cameraToAdjust: {fileID: 274663182}
-  BodypartToFocus: Nose
+  BodypartToFocus: LeftShoulder
   smoothTime: 0.1
 --- !u!1 &274663181
 GameObject:

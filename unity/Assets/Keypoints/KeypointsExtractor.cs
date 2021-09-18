@@ -23,6 +23,7 @@ public sealed class KeypointsExtractor : MonoBehaviour
     public int minCountToRecord = 50;
 
     public float minNearToRecord = 0.1f;
+    public DetectPersonAndRecord detectorAA;
 
     // MASK
     [SerializeField] UI.RawImage backgroundRenderImage = null;
@@ -106,9 +107,14 @@ public sealed class KeypointsExtractor : MonoBehaviour
             {
                 detectingBodyCounter++;
                 if (detectingBodyCounter > minCountToRecord) {
-                    c.orthographicSize = 0.04f;
+                    //c.orthographicSize = 0.04f;
                     detectingBody = true;
-                    detectingBodyCounter = 0;
+                    //detectingBodyCounter = 0;
+                    if (detectingBodyCounter > 300)
+                    {
+                        detectorAA.chooseRandomPart();
+                        detectingBodyCounter = minCountToRecord;
+                    }
                 }
 
             } else
@@ -119,12 +125,14 @@ public sealed class KeypointsExtractor : MonoBehaviour
             }
         } else
         {
+            detectingBodyCounter = 0;
+
             detectingBody = false;
         }
 
         if (!detectingBody)
         {
-            c.orthographicSize = 0.5f;
+            // c.orthographicSize = 0.5f;
         }
 
 
