@@ -54,22 +54,28 @@ public class CenterBody : MonoBehaviour
                 }
                 if (currentLabelToFind == "LeftEye" || currentLabelToFind == "RightEye")
                 {
-                    cameraToAdjust.orthographicSize = 0.02f;
+                    cameraToAdjust.orthographicSize = 0.023f;
                 }
-                if (currentLabelToFind == "LeftAnkle") {
-                    cameraToAdjust.orthographicSize = 0.06f;
 
-                }
                 if (currentLabelToFind == "RightShoulder")
                 {
-                    cameraToAdjust.orthographicSize = 0.2f;
+                    cameraToAdjust.orthographicSize = 0.19f;
                     yAdjuster = 0.75f;
                     xAdjuster = 0.95f;
 
                 }
                 if (currentLabelToFind == "LeftKnee")
                 {
-                    cameraToAdjust.orthographicSize = 0.06f;
+                    yAdjuster = 0.54f;
+
+                    cameraToAdjust.orthographicSize = 0.09f;
+                }
+                if (currentLabelToFind == "LeftAnkle")
+                {
+                    yAdjuster = 0.50f;
+
+                    cameraToAdjust.orthographicSize = 0.09f;
+
                 }
                 // Define a target position above and behind the target transform
                 Vector3 targetPosition = new Vector3(x - xAdjuster, y - yAdjuster, cameraToAdjust.transform.position.z);

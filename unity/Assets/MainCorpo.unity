@@ -268,11 +268,13 @@ MonoBehaviour:
   _resolution: {x: 512, y: 288}
   _previewUI: {fileID: 384286161}
   _markerPrefab: {fileID: 4461991498135571732, guid: eee3f1712c0734bd3be7bea414530f1b, type: 3}
-  minScoreToDetect: 0.3
+  minScoreToDetect: 0.2
   detectingBody: 0
   detectingBodyCounter: 0
   minCountToRecord: 50
-  minNearToRecord: 0.1
+  scoreNow: 0
+  dNow: 0
+  detectorAA: {fileID: 1834559471}
   backgroundRenderImage: {fileID: 1869171756}
   maskRenderImage: {fileID: 55666815}
   _drawSkeleton: 0
@@ -292,7 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   extractor: {fileID: 251461803}
   cameraToAdjust: {fileID: 274663182}
-  BodypartToFocus: LeftShoulder
+  BodypartToFocus: LeftKnee
   smoothTime: 0.1
 --- !u!1 &274663181
 GameObject:
@@ -984,7 +986,7 @@ MonoBehaviour:
   keypointExtract: {fileID: 251461803}
   recorder: {fileID: 1834559469}
   recordingBody: 0
-  forceNoRecording: 1
+  forceNoRecording: 0
   centerBody: {fileID: 251461804}
 --- !u!1 &1869171753
 GameObject:

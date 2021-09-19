@@ -12,7 +12,7 @@ public sealed class KeypointsExtractor : MonoBehaviour
     [SerializeField] UI.RawImage _previewUI = null;
     [SerializeField] RectTransform _markerPrefab = null;
 
-    public float minScoreToDetect = 0.3f;
+    public float minScoreToDetect = 0.2f;
 
     public BodyDetector _detector;
 
@@ -22,7 +22,11 @@ public sealed class KeypointsExtractor : MonoBehaviour
 
     public int minCountToRecord = 50;
 
-    public float minNearToRecord = 0.1f;
+    float minNearToRecord = 0.05f;
+
+    public float scoreNow = 0.0f;
+
+    public float dNow = 0.0f;
     public DetectPersonAndRecord detectorAA;
 
     // MASK
@@ -85,6 +89,7 @@ public sealed class KeypointsExtractor : MonoBehaviour
             var (xform, label) = _markers[i];
 
             // Visibility
+            scoreNow = key.Score;
             var visible = key.Score > minScoreToDetect;
             xform.gameObject.SetActive(visible);
             if (!visible) continue;
@@ -105,14 +110,15 @@ public sealed class KeypointsExtractor : MonoBehaviour
             // person is near!
             if (d > minNearToRecord) // distance 
             {
+                dNow = d;
                 detectingBodyCounter++;
                 if (detectingBodyCounter > minCountToRecord) {
                     //c.orthographicSize = 0.04f;
                     detectingBody = true;
                     //detectingBodyCounter = 0;
-                    if (detectingBodyCounter > 300)
+                    if (detectingBodyCounter > 200)
                     {
-                        detectorAA.chooseRandomPart();
+                        // detectorAA.chooseRandomPart();
                         detectingBodyCounter = minCountToRecord;
                     }
                 }
@@ -121,7 +127,6 @@ public sealed class KeypointsExtractor : MonoBehaviour
             {
                 detectingBody = false;
                 detectingBodyCounter = 0;
-
             }
         } else
         {

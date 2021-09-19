@@ -31,7 +31,31 @@ public class DetectPersonAndRecord : MonoBehaviour
         parts.Add("LeftKnee");
         int randomInt = Random.Range(0, parts.Count);
         Debug.Log(randomInt);
+
+           if (parts[randomInt] == centerBody.BodypartToFocus)
+        {
+            return;
+        }
         centerBody.BodypartToFocus = parts[randomInt];
+
+
+        // IP address, port number
+        var client = new OscClient("127.0.0.1", 9000);
+        client.Send("/td", "stop");
+        Debug.Log("send stop");
+
+        StartCoroutine(waitHalfSecondandSync());
+
+    }
+
+    IEnumerator waitHalfSecondandSync ()
+    {
+        var client = new OscClient("127.0.0.1", 9000);
+
+        yield return new WaitForSeconds(0.5f);
+        client.Send("/td", centerBody.BodypartToFocus);
+        Debug.Log("send start");
+        yield return null;
     }
 
     // Update is called once per frame
